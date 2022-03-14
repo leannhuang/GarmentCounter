@@ -57,7 +57,38 @@ async def main():
             msg.content_encoding = "utf-8"
             msg.content_type = "application/json"
             await module_client.send_message_to_output(msg, "output1")
+        
+        elif input_message.input_name == "EarInput":
+            text_data = input_message.data.decode('utf-8')
+                dict_data = json.loads(text_data)
+                
 
+                print("the data in the message received on input1 was ")
+                print(input_message.data)
+                print("the data text in the message received on input1 was ")
+                print(text_data)
+                print("the object in the message received on input1 was ")
+                print(dict_data)
+
+                if 'botResponse' in dict_data:
+                    resp = dict_data["botResponse"]
+                    print(f'resp: {resp}')
+
+                    if resp == 'Ok Starting now. Please Start scanning your selected garments':
+                        print('Received Start.')
+                        
+                    if resp == 'Stopped Scanning.':
+                        print('Received Stop.')
+                
+                    if resp == 'Please scan your next set of garments.':
+                        print('Received Next.')
+                
+
+                print("custom properties are")
+                print(input_message.custom_properties)
+                print("forwarding mesage to output1")
+                await module_client.send_message_to_output(input_message, "output1")
+                
         else:
             print("message received on unknown input")
 
